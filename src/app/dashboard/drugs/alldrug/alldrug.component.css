@@ -1,0 +1,8 @@
+mat-row, mat-header-row, mat-footer-row {
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+th.mat-mdc-header-cell,td.mat-mdc-cell{
+    border-bottom-width:0px !important
+}
+
