@@ -1,1 +1,67 @@
-<p>category works!</p>
+
+<div class="w-75 mx-auto">
+<button class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="status='create';
+categoryForm.reset()">Add Category</button>
+<table class="table table-striped w-75 mt-5 mx-auto">
+    <tr>
+        <th>Name</th>
+        <th>Vat</th>
+        <th>Note</th>
+        <th>Action</th>
+    </tr>
+    <tr *ngFor="let element of categories">
+        <td>{{element.name}}</td>
+        <td>{{element.categoryVAT}}</td>
+        <td>{{element.note}}</td>
+        <td>
+            <button class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="update(element)">Edit</button>
+            <button class="btn btn-danger ms-3"(click)="delete(element.id)">Delete</button>
+        </td>
+    </tr>
+</table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" #myModal role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{status=='create'?'Create ':'Update '}}Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group mb-3">
+                        <label for="exampleInputEmail1">Name</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="Enter Name" formControlName="name">
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="exampleInputPassword1">Note</label>
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Note" formControlName="note">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="exampleInputPassword1">Vate</label>
+                        <input type="number" class="form-control" id="exampleInputPassword1" formControlName="categoryVAT" >
+                    </div>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName="isActive" [(ngModel)]="isActive">
+                        <label class="form-check-label" for="exampleCheck1" >IsActive</label>
+                    </div>
+                    <div class="d-flex">
+                        <button type="submit" class="btn btn-primary ms-auto"[disabled]="!categoryForm.valid">{{status=='create'?'Save':'Update'}}</button>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Add</button>
+            </div> -->
+        </div>
+    </div>
+</div>
