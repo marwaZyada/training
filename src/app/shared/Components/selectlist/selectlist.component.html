@@ -1,0 +1,4 @@
+
+    <!-- <option value="" disabled selected>Select an option</option> -->
+    <option *ngFor="let item of items" [value]="item.id" (change)="SelectChange(item.id)">{{item.name}}</option>
+

@@ -1,9 +1,20 @@
-
 <app-header></app-header>
 <app-progress *ngIf="flag"></app-progress>
-<div class="container">
-    
-    <router-outlet></router-outlet>
-</div>
 
+    <div class="row">
+        <div class="col-4 col-sm-3 sidbar bg-primary text-light vh-100">
+            <ul>
+                <li><a routerLink="/dashboard">Drugs</a></li>
+                <li><a routerLink="category">Category</a></li>
+                <li><a href="">Pets</a></li>
+                <li><a href="">Clients</a></li>
+            </ul>
+        </div>
+        <div class="col-7 ">
+            <div class="container">
 
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+  

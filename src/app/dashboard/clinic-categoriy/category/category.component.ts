@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ProgressComponent } from "../../../shared/Components/progress/progress.component";
-import { Category } from './interface/category.model';
+import { Category } from '../../interface/category.model';
+import { DashboardService } from '../../service/dashboard.service';
 @Component({
   selector: 'app-category',
   standalone: true,
@@ -18,7 +19,7 @@ export class CategoryComponent implements OnInit {
   isActive: boolean = false;
   @ViewChild('myModal') modalElement!: ElementRef;
   status: string = 'create'
-  constructor(private service: CategoryService, private fb: FormBuilder) {
+  constructor(private service: CategoryService, private fb: FormBuilder,private serv:DashboardService) {
 
   }
   ngOnInit(): void {
@@ -55,13 +56,13 @@ export class CategoryComponent implements OnInit {
     if (this.status == 'create') {
     
       console.log(this.categoryForm.value);
-      this.service.flag.next(true);
+      this.serv.flag.next(true);
       // Access Bootstrap Modal from the global window object
 
       console.log(modal);
       this.service.addCategory(this.categoryForm.value).subscribe(
         res => {
-          this.service.flag.next(false);
+          this.serv.flag.next(false);
           if (res.success) {
             Swal.fire('Success', 'Data saved successfully!', 'success');
             this.getAllCategories();
@@ -70,7 +71,7 @@ export class CategoryComponent implements OnInit {
           }
         },
         err => {
-          this.service.flag.next(false);
+          this.serv.flag.next(false);
           // alert(err.error.message);
           Swal.fire({
             toast: true,
@@ -87,10 +88,10 @@ export class CategoryComponent implements OnInit {
     else if (this.status == 'update') {
       console.log(this.categoryForm.value);
      const id:string =this.categoryForm.get('id')?.value;
-      this.service.flag.next(true);
+      this.serv.flag.next(true);
       this.service.updateCategory(id,this.categoryForm.value).subscribe(
         res => {
-          this.service.flag.next(false);
+          this.serv.flag.next(false);
           if (res.success) {
             Swal.fire('Success', 'Data saved successfully!', 'success');
             this.getAllCategories();
@@ -100,7 +101,7 @@ export class CategoryComponent implements OnInit {
           }
         },
         err => {
-          this.service.flag.next(false);
+          this.serv.flag.next(false);
           // alert(err.error.message);
           Swal.fire({
             toast: true,
@@ -118,16 +119,16 @@ export class CategoryComponent implements OnInit {
 
     //delete category
     delete (id: number) {
-      this.service.flag.next(true);
+      this.serv.flag.next(true);
       console.log(id);
       this.service.deleteCategory(id).subscribe(
         res => {
-          this.service.flag.next(false);
+          this.serv.flag.next(false);
           Swal.fire('Success', 'Data deleted successfully!', 'success');
           this.getAllCategories();
         },
         err => {
-          this.service.flag.next(false);
+          this.serv.flag.next(false);
           Swal.fire({
             toast: true,
             position: 'top-end',
@@ -150,9 +151,9 @@ export class CategoryComponent implements OnInit {
       console.log(element);
       this.categoryForm = this.fb.group({
         id: [element.id],
-        name: [element.name, [Validators.required]],
-        note: [element.note, [Validators.required]],
-        categoryVAT: [element.categoryVAT, [Validators.required]],
+        name: [element.name],
+        note: [element.note],
+        categoryVAT: [element.categoryVAT],
         isActive: [element.isActive]
       })
 
